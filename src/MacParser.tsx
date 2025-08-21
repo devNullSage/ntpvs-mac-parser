@@ -59,7 +59,7 @@ const MacParser = () => {
       <div className="input-container">
         <input
           type="text"
-          placeholder="Введите MAC-адрес в любом формате"
+          placeholder="Введите MAC-адрес"
           value={macAddress}
           onChange={handleMacAddressChange}
           className={isValid === false ? 'invalid' : isValid === true ? 'valid' : ''}
