@@ -35,8 +35,6 @@ const MacParser = () => {
     if (upperMac !== lowerMac) {
       formats.upper = upperMac;
       formats.lower = lowerMac;
-    } else {
-      formats.plain = upperMac;
     }
 
     return formats;
