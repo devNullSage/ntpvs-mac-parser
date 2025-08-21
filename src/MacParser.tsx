@@ -70,7 +70,7 @@ const MacParser = () => {
         <div className="formats">
           <h3>📋 Форматы (нажмите для копирования):</h3>
           <ul>
-            {Object.entries(parsedFormats).map(([key, format]) => (
+            {Object.entries(parsedFormats).map(([, format]) => (
               <li 
                 key={format} 
                 onClick={() => copyToClipboard(format!)}
