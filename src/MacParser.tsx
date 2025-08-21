@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 
 const MacParser = () => {
   const [macAddress, setMacAddress] = useState('');
@@ -23,10 +23,11 @@ const MacParser = () => {
     const upperMac = cleanedMac.toUpperCase();
     const lowerMac = cleanedMac.toLowerCase();
     
+    const hexPairs = upperMac.match(/.{2}/g)!;
     const formats: Record<string, string> = {
-      colon: upperMac.match(/.{1,2}/g)?.join(':')!,
+      colon: hexPairs.join(':'),
       windows: `${upperMac.substring(0, 4)}-${upperMac.substring(4, 8)}-${upperMac.substring(8, 12)}`,
-      hyphen: upperMac.match(/.{1,2}/g)?.join('-')!,
+      hyphen: hexPairs.join('-'),
       dot: `${upperMac.substring(0, 4)}.${upperMac.substring(4, 8)}.${upperMac.substring(8, 12)}`,
     };
 
@@ -41,17 +42,19 @@ const MacParser = () => {
     return formats;
   }, [macAddress]);
 
-  const handleMacAddressChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleMacAddressChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     setMacAddress(event.target.value);
     setFlashingItem('');
-  };
+  }, []);
 
-  const copyToClipboard = (text: string) => {
+  const copyToClipboard = useCallback((text: string) => {
     navigator.clipboard.writeText(text).then(() => {
       setFlashingItem(text);
       setTimeout(() => setFlashingItem(''), 300);
+    }).catch((err) => {
+      console.error('Failed to copy to clipboard:', err);
     });
-  };
+  }, []);
 
   return (
     <div className="mac-parser">
